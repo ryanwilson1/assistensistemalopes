@@ -90,7 +90,7 @@ header{position:relative;z-index:5;display:flex;align-items:center;gap:13px;padd
 @keyframes twinkle{0%,100%{opacity:var(--o1,.3)}50%{opacity:var(--o2,.7)}}
 
 /* ═════════ GATE ═════════ */
-.gate{position:relative;z-index:1;flex:1;min-height:0;overflow:auto;display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:24px 38px;align-items:center}
+.gate{position:relative;z-index:1;flex:1;min-height:0;overflow:auto;display:grid;grid-template-columns:1fr 1fr;gap:34px;padding:28px 46px;align-items:center}
 .stageCol{position:relative;min-height:440px;display:grid;place-items:center}
 .rings{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
 .ring{position:absolute;border-radius:50%}
@@ -103,23 +103,15 @@ header{position:relative;z-index:5;display:flex;align-items:center;gap:13px;padd
 @keyframes scandown{0%,100%{top:24%;opacity:0}50%{top:74%;opacity:.9}}
 @keyframes pulseGlow{50%{opacity:.55;transform:scale(1.08)}}
 @keyframes spin{to{transform:rotate(360deg)}}
-.robot{position:relative;z-index:2;width:280px;animation:float 6.2s ease-in-out infinite;filter:drop-shadow(0 26px 42px rgba(4,8,20,.6))}
+.robot{position:relative;z-index:2;width:280px;filter:drop-shadow(0 26px 42px rgba(4,8,20,.6))}
 @keyframes float{50%{transform:translateY(-12px)}}
 .robot-svg{width:100%;height:auto;display:block;overflow:visible}
 .neon{filter:drop-shadow(0 0 4px var(--crimson))}
 .neon-dot{filter:drop-shadow(0 0 6px var(--pink-300))}
 
-/* ——— OLHOS (animação CSS pura: piscar + olhar) ——— */
-.eyes{transform-box:fill-box;transform-origin:center;animation:glance 8s ease-in-out infinite}
-.eye{transform-box:fill-box;transform-origin:center;animation:blink 5s infinite}
+/* ——— OLHOS: animação nativa SVG (SMIL) no próprio SVG; aqui só o brilho ——— */
 .robot .eye{filter:drop-shadow(0 0 9px var(--crimson))}
-.robot .eyes{animation-duration:8.5s}
-.robot .eye{animation-duration:5.3s}
 #hbot .eye{filter:drop-shadow(0 0 3px var(--crimson))}
-#hbot .eyes{animation-duration:6.4s}
-#hbot .eye{animation-duration:4.3s}
-@keyframes blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.08)}}
-@keyframes glance{0%,40%,100%{transform:translateX(0)}47%,55%{transform:translateX(1.5px)}72%,80%{transform:translateX(-1.5px)}}
 .hbot.glowing .eye{filter:drop-shadow(0 0 6px var(--pink-200)) brightness(1.3)}
 
 .rbLed{animation:ledpulse 3.7s ease-in-out infinite}
@@ -136,7 +128,7 @@ header{position:relative;z-index:5;display:flex;align-items:center;gap:13px;padd
 .hbot.waving .rbHand{opacity:1;animation:wave 1.1s ease-in-out}
 @keyframes wave{0%,100%{transform:scale(1) rotate(0)}20%{transform:scale(1) rotate(17deg)}45%{transform:scale(1) rotate(-8deg)}70%{transform:scale(1) rotate(17deg)}}
 
-.panelCol{position:relative;z-index:1}
+.panelCol{position:relative;z-index:1;max-width:470px}
 .eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:3.5px;color:var(--pink-300);text-transform:uppercase}
 .core-title{font-size:44px;font-weight:200;letter-spacing:1px;margin:12px 0 4px;line-height:1}
 .core-title b{font-weight:700;background:linear-gradient(90deg,var(--crimson),var(--pink-200));-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -161,8 +153,9 @@ header{position:relative;z-index:5;display:flex;align-items:center;gap:13px;padd
 .choice .cic{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;flex-shrink:0;background:radial-gradient(circle at 30% 25%,rgba(226,20,88,.55),rgba(157,12,55,.25));border:1px solid rgba(251,199,217,.3)}
 .choice.cor .cic{background:radial-gradient(circle at 30% 25%,rgba(24,47,85,.9),rgba(13,27,48,.6));border-color:rgba(245,154,184,.24)}
 .choice .cic svg{width:24px;height:24px;color:#fff;filter:drop-shadow(0 0 6px rgba(226,20,88,.6))}
-.choice .ct{font-size:16px;font-weight:500;letter-spacing:.5px}
-.choice .cd{font-size:11.5px;color:var(--dim);margin-top:3px}
+.choice .ctw{display:flex;flex-direction:column;min-width:0}
+.choice .ct{display:block;font-size:16px;font-weight:500;letter-spacing:.5px}
+.choice .cd{display:block;font-size:11.5px;color:var(--dim);margin-top:3px;line-height:1.35}
 .choice .cgo{margin-left:auto;color:var(--pink-300);transition:transform .22s}
 .choice:hover .cgo{transform:translateX(4px)}
 
@@ -296,8 +289,12 @@ header{position:relative;z-index:5;display:flex;align-items:center;gap:13px;padd
           <rect x="4" y="8" width="16" height="12" rx="4"/><path d="M12 8V4.6"/>
           <circle class="rbLed" cx="12" cy="3.5" r="1.2" fill="#e21458" stroke="none"/>
           <g class="eyes" id="hbotEyes">
-            <circle class="eye" cx="9" cy="13.6" r="1.2" fill="#e21458" stroke="none"/>
-            <circle class="eye" cx="15" cy="13.6" r="1.2" fill="#e21458" stroke="none"/>
+            <ellipse class="eye" cx="9" cy="13.6" rx="1.25" ry="1.45" fill="#e21458" stroke="none">
+              <animate attributeName="ry" dur="4.3s" repeatCount="indefinite" keyTimes="0;0.90;0.94;0.975;1" values="1.45;1.45;0.12;1.45;1.45"/>
+            </ellipse>
+            <ellipse class="eye" cx="15" cy="13.6" rx="1.25" ry="1.45" fill="#e21458" stroke="none">
+              <animate attributeName="ry" dur="4.3s" repeatCount="indefinite" keyTimes="0;0.90;0.94;0.975;1" values="1.45;1.45;0.12;1.45;1.45"/>
+            </ellipse>
           </g>
           <path class="mouth mouth-neutral" d="M9.5 16.6 q2.5 -0.5 5 0"/>
           <path class="mouth mouth-smile" d="M9.1 16.1 q2.9 2.2 5.8 0"/>
@@ -333,33 +330,68 @@ header{position:relative;z-index:5;display:flex;align-items:center;gap:13px;padd
           <div class="hcircle"></div><div class="scanline"></div>
         </div>
         <div class="robot" data-par="18" aria-hidden="true">
-          <svg class="robot-svg" viewBox="0 0 200 234" xmlns="http://www.w3.org/2000/svg">
+          <svg class="robot-svg" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <linearGradient id="shell" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#fdeef3"/><stop offset="1" stop-color="#e7cdd8"/></linearGradient>
-              <linearGradient id="shellSide" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e6d3dc"/><stop offset="1" stop-color="#ffffff"/></linearGradient>
-              <linearGradient id="visor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0c1428"/><stop offset="1" stop-color="#1b2f52"/></linearGradient>
-              <radialGradient id="eyeg" cx=".5" cy=".42" r=".58"><stop offset="0" stop-color="#ffffff"/><stop offset=".42" stop-color="#fbc7d9"/><stop offset="1" stop-color="#e21458"/></radialGradient>
+              <linearGradient id="shell" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".46" stop-color="#fbe9f0"/><stop offset="1" stop-color="#dcc4d0"/></linearGradient>
+              <linearGradient id="shellDk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3dde6"/><stop offset="1" stop-color="#cbb1bf"/></linearGradient>
+              <linearGradient id="metal" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c7aebb"/><stop offset=".5" stop-color="#f6e6ed"/><stop offset="1" stop-color="#c7aebb"/></linearGradient>
+              <linearGradient id="visor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a1120"/><stop offset="1" stop-color="#1c3157"/></linearGradient>
+              <radialGradient id="eyeg" cx=".5" cy=".4" r=".6"><stop offset="0" stop-color="#ffffff"/><stop offset=".4" stop-color="#fbc7d9"/><stop offset="1" stop-color="#e21458"/></radialGradient>
+              <radialGradient id="core" cx=".5" cy=".42" r=".6"><stop offset="0" stop-color="#ffe0ea"/><stop offset=".5" stop-color="#e21458"/><stop offset="1" stop-color="#7d0a2e"/></radialGradient>
             </defs>
-            <path d="M36 232 Q36 184 74 176 L126 176 Q164 184 164 232 Z" fill="url(#shell)" stroke="#d9bcc7" stroke-width="1"/>
-            <path d="M84 198 L116 198" stroke="#e21458" stroke-width="2.4" stroke-linecap="round" class="neon"/>
-            <circle cx="100" cy="212" r="3.4" fill="#f59ab8" class="neon-dot pulse"/>
-            <rect x="87" y="156" width="26" height="28" rx="9" fill="url(#shellSide)" stroke="#d9bcc7"/>
-            <rect x="50" y="38" width="100" height="122" rx="42" fill="url(#shell)" stroke="#dcc0cc" stroke-width="1.4"/>
-            <rect x="41" y="80" width="13" height="42" rx="6" fill="url(#shellSide)" stroke="#d9bcc7"/>
-            <rect x="146" y="80" width="13" height="42" rx="6" fill="url(#shellSide)" stroke="#d9bcc7"/>
-            <circle cx="47.5" cy="101" r="3" fill="#e21458" class="neon-dot"/>
-            <circle cx="152.5" cy="101" r="3" fill="#e21458" class="neon-dot"/>
-            <rect x="62" y="68" width="76" height="56" rx="28" fill="url(#visor)" stroke="#0a1120"/>
-            <rect x="62" y="68" width="76" height="26" rx="13" fill="#ffffff" opacity=".05"/>
-            <g class="eyes">
-              <rect class="eye" x="76" y="88" width="15" height="19" rx="7.5" fill="url(#eyeg)"/>
-              <rect class="eye" x="109" y="88" width="15" height="19" rx="7.5" fill="url(#eyeg)"/>
+            <g id="gBody">
+              <path d="M30 238 Q30 190 60 180 L80 173 L120 173 L140 180 Q170 190 170 238 Z" fill="url(#shell)" stroke="#cdb2bf" stroke-width="1"/>
+              <path d="M30 238 Q30 192 58 182 L72 198 Q52 208 50 238 Z" fill="url(#shellDk)" stroke="#c3a7b5" stroke-width=".8"/>
+              <path d="M170 238 Q170 192 142 182 L128 198 Q148 208 150 238 Z" fill="url(#shellDk)" stroke="#c3a7b5" stroke-width=".8"/>
+              <path d="M76 188 Q100 179 124 188" fill="none" stroke="#c199ab" stroke-width="1.3" opacity=".8"/>
+              <path d="M80 176 L120 176" stroke="#ffffff" stroke-width="1.4" opacity=".5" stroke-linecap="round"/>
+              <path d="M85 198 L115 198 L111 226 L89 226 Z" fill="url(#shellDk)" stroke="#c3a7b5" stroke-width=".8"/>
+              <circle cx="100" cy="211" r="7.6" fill="url(#core)" class="neon-dot pulse"/>
+              <circle cx="100" cy="211" r="7.6" fill="none" stroke="#f7c9d8" stroke-width="1" opacity=".7"/>
+              <circle cx="80" cy="205" r="1.5" fill="#c9a7b5"/>
+              <circle cx="120" cy="205" r="1.5" fill="#c9a7b5"/>
+
+              <rect x="88" y="150" width="24" height="22" rx="4" fill="url(#metal)" stroke="#b79aa8" stroke-width=".8"/>
+              <line x1="88" y1="157" x2="112" y2="157" stroke="#b294a4" stroke-width=".8"/>
+              <line x1="88" y1="164" x2="112" y2="164" stroke="#b294a4" stroke-width=".8"/>
+              <circle cx="86" cy="161" r="2.2" fill="#d9bcc7" stroke="#b294a4" stroke-width=".6"/>
+              <circle cx="114" cy="161" r="2.2" fill="#d9bcc7" stroke="#b294a4" stroke-width=".6"/>
+
+              <g id="gHead">
+                <path d="M60 74 Q60 46 84 44 L116 44 Q140 46 140 74 L140 100 L134 108 L66 108 L60 100 Z" fill="url(#shell)" stroke="#d3b8c5" stroke-width="1.3"/>
+                <path d="M66 108 L134 108 L128 132 Q124 146 108 149 L92 149 Q76 146 72 132 Z" fill="url(#shellDk)" stroke="#c9aec0" stroke-width="1"/>
+                <path d="M71 112 L129 112" stroke="#c199ab" stroke-width=".8" opacity=".65"/>
+                <path d="M100 44 L100 60" stroke="#c199ab" stroke-width=".8" opacity=".55"/>
+                <path d="M84 47 Q100 45 116 47" stroke="#ffffff" stroke-width="1.6" opacity=".5" fill="none" stroke-linecap="round"/>
+
+                <rect x="45" y="80" width="14" height="34" rx="4" fill="url(#metal)" stroke="#b79aa8" stroke-width=".8"/>
+                <line x1="48" y1="87" x2="56" y2="87" stroke="#b294a4" stroke-width=".8"/>
+                <line x1="48" y1="93" x2="56" y2="93" stroke="#b294a4" stroke-width=".8"/>
+                <line x1="48" y1="99" x2="56" y2="99" stroke="#b294a4" stroke-width=".8"/>
+                <circle cx="52" cy="107" r="2.3" fill="#e21458" class="neon-dot"/>
+                <rect x="141" y="80" width="14" height="34" rx="4" fill="url(#metal)" stroke="#b79aa8" stroke-width=".8"/>
+                <line x1="144" y1="87" x2="152" y2="87" stroke="#b294a4" stroke-width=".8"/>
+                <line x1="144" y1="93" x2="152" y2="93" stroke="#b294a4" stroke-width=".8"/>
+                <line x1="144" y1="99" x2="152" y2="99" stroke="#b294a4" stroke-width=".8"/>
+                <circle cx="148" cy="107" r="2.3" fill="#e21458" class="neon-dot"/>
+
+                <path d="M68 72 L132 72 L136 78 L136 104 L130 112 L70 112 L64 104 L64 78 Z" fill="url(#visor)" stroke="#080e1a" stroke-width="1"/>
+                <path d="M68 76 L132 76 L132 87 L68 89 Z" fill="#ffffff" opacity=".05"/>
+
+                <g class="eyes" id="gEyes">
+                  <ellipse class="eye" cx="84" cy="92" rx="8" ry="10" fill="url(#eyeg)">
+                    <animate attributeName="ry" dur="5.3s" repeatCount="indefinite" keyTimes="0;0.90;0.945;0.99;1" values="10;10;1;10;10"/>
+                  </ellipse>
+                  <ellipse class="eye" cx="116" cy="92" rx="8" ry="10" fill="url(#eyeg)">
+                    <animate attributeName="ry" dur="5.3s" repeatCount="indefinite" keyTimes="0;0.90;0.945;0.99;1" values="10;10;1;10;10"/>
+                  </ellipse>
+                </g>
+
+                <circle cx="100" cy="64" r="3.2" fill="#f59ab8" class="neon-dot"/>
+                <line x1="100" y1="44" x2="100" y2="28" stroke="#cdb2bf" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="100" cy="24" r="4.5" fill="#e21458" class="neon-dot pulse"/>
+              </g>
             </g>
-            <circle cx="100" cy="55" r="4" fill="#f59ab8" class="neon-dot"/>
-            <line x1="100" y1="38" x2="100" y2="24" stroke="#dcc0cc" stroke-width="3" stroke-linecap="round"/>
-            <circle cx="100" cy="20" r="4.5" fill="#e21458" class="neon-dot pulse"/>
-            <path d="M68 132 L83 132" stroke="#e21458" stroke-width="1.6" class="neon" stroke-linecap="round"/>
-            <path d="M117 132 L132 132" stroke="#e21458" stroke-width="1.6" class="neon" stroke-linecap="round"/>
           </svg>
         </div>
       </div>
@@ -379,12 +411,12 @@ header{position:relative;z-index:5;display:flex;align-items:center;gap:13px;padd
         <div class="choices">
           <button class="choice adm" onclick="startChat('admin')" aria-label="Entrar como Administrador">
             <span class="cic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9.5 12l2 2 3.5-3.5"/></svg></span>
-            <span><span class="ct">Administrador</span><span class="cd">Controle total: equipe, acessos e catálogo</span></span>
+            <span class="ctw"><span class="ct">Administrador</span><span class="cd">Controle total: equipe, acessos e catálogo</span></span>
             <span class="cgo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></span>
           </button>
           <button class="choice cor" onclick="startChat('corretor')" aria-label="Entrar como Corretor">
             <span class="cic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg></span>
-            <span><span class="ct">Corretor</span><span class="cd">Acesso enxuto: seus clientes e empreendimentos</span></span>
+            <span class="ctw"><span class="ct">Corretor</span><span class="cd">Acesso enxuto: seus clientes e empreendimentos</span></span>
             <span class="cgo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></span>
           </button>
         </div>
@@ -742,6 +774,57 @@ function farewellRitual(){
     els.forEach(function(n){ var d=parseFloat(n.getAttribute('data-par'))||10; n.style.transform='translate('+(cx*d).toFixed(2)+'px,'+(cy*d).toFixed(2)+'px)'; });
     requestAnimationFrame(loop);
   })();
+})();
+
+(function alive(){
+  var hEyes=document.getElementById('hbotEyes');
+  var gEyes=document.getElementById('gEyes');
+  var gHead=document.getElementById('gHead');
+  var gBody=document.getElementById('gBody');
+  var groups=[];
+  if(hEyes) groups.push({el:hEyes,max:2.1,vy:0.6});
+  if(gEyes) groups.push({el:gEyes,max:5.2,vy:0.7});
+  var cur=groups.map(function(){return {x:0,y:0};});
+  var yaw=0, nod=0, bx=0, by=0, br=0;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var amp=reduce?0.45:1; // sob "reduzir movimento": vivo, porém mais suave
+  var px=window.innerWidth*0.5, py=window.innerHeight*0.42, last=0, has=false;
+  function move(x,y){ px=x; py=y; last=performance.now(); has=true; }
+  window.addEventListener('mousemove',function(e){ move(e.clientX,e.clientY); },{passive:true});
+  window.addEventListener('touchstart',function(e){ if(e.touches[0]) move(e.touches[0].clientX,e.touches[0].clientY); },{passive:true});
+  window.addEventListener('touchmove',function(e){ if(e.touches[0]) move(e.touches[0].clientX,e.touches[0].clientY); },{passive:true});
+
+  function frame(now){
+    var t=now/1000;
+    var active = has && (now-last<2600);
+
+    // OLHOS — seguem cursor/toque; ociosos, derivam
+    groups.forEach(function(g,i){
+      var tx,ty;
+      if(!active){ tx=Math.sin(t*0.55+i*1.3)*g.max*0.5; ty=Math.sin(t*0.34+i*2.1)*g.max*g.vy*0.5; }
+      else{ var r=g.el.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2,
+             dx=px-cx, dy=py-cy, d=Math.hypot(dx,dy)||1, k=Math.min(1,d/260);
+        tx=(dx/d)*g.max*k; ty=(dy/d)*g.max*g.vy*k; }
+      cur[i].x+=(tx-cur[i].x)*0.12; cur[i].y+=(ty-cur[i].y)*0.12;
+      g.el.setAttribute('transform','translate('+cur[i].x.toFixed(2)+' '+cur[i].y.toFixed(2)+')');
+    });
+
+    // CABEÇA — gira na direção do cursor, ou escaneia quando ocioso; + leve aceno
+    var yawT = (active ? (px/window.innerWidth-0.5)*9 : Math.sin(t*0.30)*5.2) * amp;
+    var nodT = Math.sin(t*0.85)*1.5 * amp;
+    yaw += (yawT-yaw)*0.05; nod += (nodT-nod)*0.08;
+    if(gHead) gHead.setAttribute('transform','translate(0 '+nod.toFixed(2)+') rotate('+yaw.toFixed(2)+' 100 150)');
+
+    // CORPO — respira (sobe/desce), troca de peso (lateral) e inclina de leve
+    var byT = Math.sin(t*0.9)*2.8 * amp;
+    var bxT = (Math.sin(t*0.40)*5.4 + (active?(px/window.innerWidth-0.5)*3:0)) * amp;
+    var brT = Math.sin(t*0.40)*1.5 * amp;
+    by += (byT-by)*0.08; bx += (bxT-bx)*0.05; br += (brT-br)*0.05;
+    if(gBody) gBody.setAttribute('transform','translate('+bx.toFixed(2)+' '+by.toFixed(2)+') rotate('+br.toFixed(2)+' 100 236)');
+
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
 })();
 </script>
 </body>
